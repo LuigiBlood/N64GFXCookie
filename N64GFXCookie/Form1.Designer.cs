@@ -47,6 +47,9 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openCI4toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsCI4toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -72,6 +75,9 @@
             this.openToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator1,
+            this.openCI4toolStripMenuItem,
+            this.saveAsCI4toolStripMenuItem,
+            this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -81,14 +87,14 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Text = "Open as CI8...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as...";
+            this.saveAsToolStripMenuItem.Text = "Save as CI8...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -251,6 +257,25 @@
             this.pictureBox1.TabIndex = 15;
             this.pictureBox1.TabStop = false;
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            // 
+            // openCI4toolStripMenuItem
+            // 
+            this.openCI4toolStripMenuItem.Name = "openCI4toolStripMenuItem";
+            this.openCI4toolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openCI4toolStripMenuItem.Text = "Open as CI4...";
+            this.openCI4toolStripMenuItem.Click += new System.EventHandler(this.openCI4toolStripMenuItem_Click);
+            // 
+            // saveAsCI4toolStripMenuItem
+            // 
+            this.saveAsCI4toolStripMenuItem.Name = "saveAsCI4toolStripMenuItem";
+            this.saveAsCI4toolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsCI4toolStripMenuItem.Text = "Save as CI4...";
+            this.saveAsCI4toolStripMenuItem.Click += new System.EventHandler(this.saveAsCI4toolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,6 +325,9 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem openCI4toolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsCI4toolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 

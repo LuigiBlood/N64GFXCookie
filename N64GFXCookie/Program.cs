@@ -18,6 +18,7 @@ namespace N64GFXCookie
 
         static Color[] palette;
         static byte[] graphics;
+        static int filetype;        //0 = CI8, 1 = CI4
 
         [STAThread]
         static void Main()
@@ -34,6 +35,8 @@ namespace N64GFXCookie
                 MessageBox.Show("File under 512 bytes, invalid CI8 file. Palette expected.");
                 return false;
             }
+
+            filetype = 0;
 
             file.Seek(0, SeekOrigin.Begin);
 
@@ -94,13 +97,96 @@ namespace N64GFXCookie
             return true;
         }
 
+        public static bool LoadCI4File(Stream file)
+        {
+            if (file.Length < 32)
+            {
+                MessageBox.Show("File under 32 bytes, invalid CI4 file. Palette expected.");
+                return false;
+            }
+
+            filetype = 1;
+
+            file.Seek(0, SeekOrigin.Begin);
+
+            byte[] palettetemp = new byte[32];
+            file.Read(palettetemp, 0, 32);
+
+            // Palette processing RGBA 5551
+            palette = new Color[16];
+            ushort colortemp;
+            Color colortemp2;
+            byte R, G, B, A;
+            for (int i = 0; i < 16; i++)
+            {
+                colortemp = (ushort)((palettetemp[i * 2] << 8) | (palettetemp[i * 2 + 1]));
+                B = (byte)((colortemp & 0x3E) << 2);
+                G = (byte)((colortemp & 0x7C0) >> 3);
+                R = (byte)((colortemp & 0xF800) >> 8);
+                A = (byte)(0xFF * ((colortemp) & 1));
+
+                colortemp2 = Color.FromArgb(A, R, G, B);
+                palette[i] = colortemp2;
+            }
+
+            if (file.Length > 32)
+            {
+                //If there's more than just the palette, then get the graphics too
+                int GFXsize = (int)file.Length - 32;
+                byte[] graphicstemp = new byte[GFXsize];
+                file.Read(graphicstemp, 0, GFXsize);
+
+                //Convert to CI8 internally
+                graphics = new byte[GFXsize * 2];
+                for (int i = 0; i < GFXsize; i++)
+                {
+                    graphics[i * 2] = (byte)(graphicstemp[i] >> 4);
+                    graphics[(i * 2) + 1] = (byte)(graphicstemp[i] & 0xF);
+                }
+            }
+            file.Close();
+            return true;
+        }
+
+        public static bool SaveCI4File(Stream file)
+        {
+            //Color save
+            ushort colortemp;
+            byte[] palettetemp = new byte[32];
+            int R, G, B, A;
+            for (int i = 0; i < 16; i++)
+            {
+                B = palette[i].B >> 2;
+                G = palette[i].G << 3;
+                R = palette[i].R << 8;
+                A = palette[i].A;
+
+                colortemp = (ushort)(R | G | B | (A & 1));
+                palettetemp[i * 2] = (byte)(colortemp >> 8);
+                palettetemp[i * 2 + 1] = (byte)(colortemp & 0xFF);
+            }
+
+            file.Write(palettetemp, 0, 32);
+            //GFX save
+            byte[] graphicstemp = new byte[graphics.Length / 2];
+            for (int i = 0; i < graphics.Length; i += 2)
+            {
+                graphicstemp[i / 2] = (byte)((graphics[i] << 4) | (graphics[i + 1] & 0xF));
+            }
+
+            file.Write(graphicstemp, 0, graphicstemp.Length);
+
+            file.Close();
+            return true;
+        }
+
         public static Bitmap RenderGFX(int width, int height, int zoom)
         {
             if (palette == null || graphics == null)
             {
                 return new Bitmap(1, 1);
             }
-
+            
             Bitmap img = new Bitmap(width * zoom, height * zoom);
 
             for (int y = 0; y < height; y++)

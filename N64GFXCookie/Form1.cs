@@ -25,6 +25,14 @@ namespace N64GFXCookie
             openFileDialog1.ShowDialog();
         }
 
+        private void openCI4toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Open CI4 File...";
+            openFileDialog1.Filter = "Binary File (*.bin)|*.bin|All files|*.*";
+            openFileDialog1.Tag = "ci4";
+            openFileDialog1.ShowDialog();
+        }
+
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Title = "Import PNG";
@@ -41,7 +49,13 @@ namespace N64GFXCookie
                 Program.LoadCI8File(openFileDialog1.OpenFile());
                 UpdateImage();
             }
-            else
+            else if ((string)openFileDialog1.Tag == "ci4")
+            {
+                //Load CI4
+                Program.LoadCI4File(openFileDialog1.OpenFile());
+                UpdateImage();
+            }
+            else if ((string)openFileDialog1.Tag == "import")
             {
                 //Import PNG
                 Program.ImportPNG(openFileDialog1.OpenFile());
@@ -65,6 +79,14 @@ namespace N64GFXCookie
             saveFileDialog1.ShowDialog();
         }
 
+        private void saveAsCI4toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Title = "Save CI4 File...";
+            saveFileDialog1.Filter = "Binary File (*.bin)|*.bin|All files|*.*";
+            saveFileDialog1.Tag = "ci4";
+            saveFileDialog1.ShowDialog();
+        }
+
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             if ((string)saveFileDialog1.Tag == "to")
@@ -72,10 +94,15 @@ namespace N64GFXCookie
                 //Export to PNG
                 Program.SavePNGRender(saveFileDialog1.OpenFile(), (int)numericUpDown1.Value, (int)numericUpDown2.Value);
             }
-            else
+            else if ((string)saveFileDialog1.Tag == "ci8")
             {
                 //Save CI8 binary file
                 Program.SaveCI8File(saveFileDialog1.OpenFile());
+            }
+            else if ((string)saveFileDialog1.Tag == "ci4")
+            {
+                //Save CI4 binary file
+                Program.SaveCI4File(saveFileDialog1.OpenFile());
             }
         }
 
